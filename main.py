@@ -171,6 +171,9 @@ def menu_cliente(cliente): # Exibe o menu de opções para clientes, cliente: in
                     print("Avaliação registrada!")
                     break # Sai do loop após encontrar o pedido
                 print("Pedido não encontrado.")
+        
+        elif opcao == "4":
+            break
     
 
 
@@ -267,17 +270,21 @@ if modo == "login":
     senha = input("Digite sua senha: ")
 
     conta_logada = autenticador.autenticar(email, senha)
-    if conta_logada and conta_logada.tipo_usuario.strip().lower() == tipo.strip().lower(): #Verifica se a conta logada corresponde ao tipo de usuário
+
+    if conta_logada is None:
+        print("Email ou senha inválidos.")
+        exit()
+    elif conta_logada.tipo_usuario.strip().lower() != tipo:
+        print(f"Erro: a conta cadastrada é do tipo '{conta_logada.tipo_usuario}', não '{tipo}'.")
+        exit()
+    else:
         usuario = conta_logada.usuario
-        if tipo == "cliente": # Verifica o tipo de usuário e chama a função correspondente
-            menu_cliente(usuario) 
-        elif tipo == "entregador": # 
+        if tipo == "cliente":
+            menu_cliente(usuario)
+        elif tipo == "entregador":
             menu_entregador(usuario)
         elif tipo == "vendedor":
             menu_vendedor(usuario)
-    else:
-        print("Login inválido ou tipo incorreto.")
-        exit()
 
 elif modo == "cadastro":  #Pede para o usuário se cadastrar
     tipo_usuario = input("Você é (cliente / entregador / vendedor)? ").lower() 
@@ -329,9 +336,9 @@ elif modo == "cadastro":  #Pede para o usuário se cadastrar
     if tipo_usuario == "cliente": # Verifica o tipo de usuário e cria a conta correspondente
         nova_conta.usuario = Cliente(nome, endereco, telefone, email, senha)
     elif tipo_usuario == "entregador":
-        transporte_tipo = input("Tipo de transporte (ex: moto, carro): ")
+        transporte_tipo = input("Qual seu tipo de transporte para entregas? (ex: moto, carro, bicicleta): ")
         capacidade = float(input("Capacidade de carga: "))
-        nova_conta.usuario = Entregador(nome, transporte_tipo, capacidade)
+        nova_conta.usuario = Entregador(nome, transporte_tipo, capacidade) 
     elif tipo_usuario == "vendedor":
         cnpj = input("CNPJ: ")
         nova_conta.usuario = vendedor(nome, endereco, telefone, cnpj, email)
