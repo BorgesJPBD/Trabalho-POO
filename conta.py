@@ -2,7 +2,7 @@ class Conta: #Representa uma conta de usuário no sistema
     def __init__(self, id_conta, nome_cliente, email, telefone, endereco, tipo_usuario): #Inicializa a conta com as informações fornecidas
         self.id_conta = id_conta  # Público
         self.nome_cliente = nome_cliente  # Público
-        self.email = email  # Público
+        self._email = email  # Público
         self.telefone = telefone  # Público
         self._endereco = endereco  # Protegido
         self.__senha = None  # Privado  
@@ -42,8 +42,8 @@ class Conta: #Representa uma conta de usuário no sistema
         return self._email
 
     @email.setter
-    def email(self, valor):
-        self._email = valor
+    def email(self, email):
+        self._email = email
 
     @property
     def telefone(self):

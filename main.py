@@ -2,8 +2,9 @@ import re
 import random
 import os
 import pickle
-from datetime import date
 
+from datetime import date
+from persistencia import salvar_objeto, carregar_objeto
 from cliente import Cliente
 from conta import Conta, Autenticador
 from entregador import Entregador
@@ -14,17 +15,6 @@ from transporte import Transporte
 from vendedor import vendedor
 from produto import Produto
 
-
-def salvar_objeto(obj, arquivo):   #Salva um objeto em um arquivo usando o módulo pickle.  Parâmetros: obj: qualquer objeto Python serializável
-    
-    with open(arquivo, "wb") as f:
-        pickle.dump(obj, f)
-
-def carregar_objeto(arquivo, fallback): # Carrega um objeto de um arquivo pickle, ou retorna um valor padrão se o arquivo não existir, arquivo: nome do arquivo a ser carregado, fallback: valor padrão a ser retornado se o arquivo não existir
-    if not os.path.exists(arquivo):
-        return fallback #Retorna objeto carregado do arquivo ou fallback
-    with open(arquivo, "rb") as f:
-        return pickle.load(f)
 
 
 autenticador = carregar_objeto("autenticador.pkl", Autenticador())
